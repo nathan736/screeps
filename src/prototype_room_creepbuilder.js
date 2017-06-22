@@ -156,6 +156,9 @@ Room.prototype.getPartsStringDatas = function(parts, energyAvailable) {
   ret.cost = Memory.layoutsCost[parts] || 0;
   ret.parts = global.utils.stringToParts(parts);
   ret.len = ret.parts.length;
+  if (config.debug.spawn) {
+    this.log(`getPartsStringDatas ret: ${JSON.stringify(ret)} parts: ${JSON.stringify(parts)}`);
+  }
   if (ret.cost) {
     ret.fail = ret.cost > energyAvailable;
     return ret;
@@ -234,6 +237,9 @@ Room.prototype.applyAmount = function(input, amount) {
   _.forEach(amount, function(element, index) {
     output += _.repeat(input.charAt(index), element);
   });
+  if (config.debug.spawn) {
+    this.log(`applyAmount input: ${JSON.stringify(input)} amount: ${JSON.stringify(amount)} output: ${JSON.stringify(output)}`);
+  }
   return output;
 };
 
@@ -346,7 +352,6 @@ Room.prototype.getCreepConfig = function(creep) {
  */
 Room.prototype.spawnCreateCreep = function(creep) {
   let spawns = this.getSpawnableSpawns();
-
   if (spawns.length === 0) { return; }
 
   let creepConfig = this.getCreepConfig(creep);
@@ -356,8 +361,8 @@ Room.prototype.spawnCreateCreep = function(creep) {
 
   for (let spawn of spawns) {
     let returnCode = spawn.createCreep(creepConfig.partConfig, creepConfig.name, creepConfig.memory);
-    // this.log('spawnCreateCreep: ' + creepConfig.name + ' ' + returnCode);
     if (returnCode != creepConfig.name) {
+      this.log(`spawnCreateCreep: ${returnCode}`);
       continue;
     }
     brain.stats.modifyRoleAmount(creep.role, 1);
