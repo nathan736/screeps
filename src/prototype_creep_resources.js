@@ -372,7 +372,7 @@ let filterTransferrables = function(creep, object) {
     return false;
   }
 
-  if (object.energy === object.energyCapacity) {
+  if (object.structureType !== STRUCTURE_STORAGE && object.energy === object.energyCapacity) {
     return false;
   }
 
