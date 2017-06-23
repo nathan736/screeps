@@ -447,7 +447,8 @@ Creep.prototype.moveToSource = function(source) {
   }
   this.memory.routing.reverse = false;
   if (this.room.memory.misplacedSpawn || this.room.controller.level < 3) {
-    this.moveToMy(source.pos);
+    this.moveTo(source.pos);
+    // TODO should be `moveToMy`, but that hangs in W5N1 spawn (10,9)
   } else {
     this.moveByPathMy([{
       'name': this.room.name
@@ -476,7 +477,6 @@ Creep.prototype.harvestSource = function(source) {
 
 Creep.prototype.getEnergyFromSource = function() {
   let source = this.pos.getClosestSource();
-
   let range = this.pos.getRangeTo(source);
   if (this.carry.energy > 0 && range > 1) {
     this.memory.hasEnergy = true; // Stop looking and spend the energy.
