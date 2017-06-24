@@ -348,7 +348,7 @@ Room.prototype.setStructures = function(path) {
     let pathPos = new RoomPosition(path[pathI].x, path[pathI].y, this.name);
     let structurePosIterator = pathPos.findNearPosition();
     for (let structurePos of structurePosIterator) {
-      if (!this.setStructuresIteratePos(structurePos, pathI, path, pathPos)) {
+      if (this.setStructuresIteratePos(structurePos, pathI, path, pathPos)) {
         continue;
       }
       return pathI;
